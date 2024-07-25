@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Download;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
+use App\Http\Requests\ImportFileRequest;
+use App\Jobs\ImportFileJob;
+use App\Services\FileService;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -15,6 +16,13 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 class FileController extends Controller
 {
+    private FileService $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
+
     /**
      * @return BinaryFileResponse
      */
@@ -29,8 +37,15 @@ class FileController extends Controller
         return Response::download($file, 'ImportSheet.csv', $headers);
     }
 
-    public function importFile(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @throws FileNotFoundException
+     */
+    public function importFile(ImportFileRequest $request): void
     {
-        return view('index');
+        $file = $request->file('file');
+
+        $filePath = $this->fileService->storeFile($file);
+
+        dispatch(new ImportFileJob(storage_path().'/app/public/'.$filePath));
     }
 }

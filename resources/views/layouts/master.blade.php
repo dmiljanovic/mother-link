@@ -36,21 +36,39 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
-    Dropzone.autoDiscover = false;
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    //Init pusher
+    var pusher = new Pusher('6e3b298239585804f384', {
+        cluster: 'eu'
+    });
 
+    var channel = pusher.subscribe('notification');
+    channel.bind('test.notification', function(data) {
+        next();
+        alert(JSON.stringify(data));
+    });
+
+    //Init Dropzone
+    Dropzone.autoDiscover = false;
+    var CSRF_TOKEN = $("input[name=_token]").val();
     // Dropzone configuration
     var myDropzone = new Dropzone(".dropzone", {
         url: "{{ route('files.import') }}",
+        headers: {
+            'x-csrf-token': CSRF_TOKEN,
+        },
         paramName: "file",
         maxFilesize: 2, // MB
-        maxFiles: 11,
+        maxFiles: 1,
         // acceptedFiles: 'image/*',
         dictDefaultMessage: '<div><i class="bi bi-cloud-arrow-up" style="font-size: 2rem;"></i></div>Drag & drop .csv or .xls file here or click to upload here.',
         clickable: true
     });
 
+    //Tabs movement
     let current = 0;
     const tabs = $('.tab');
     const tabs_pill = $('.tab-pills');

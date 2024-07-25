@@ -5,11 +5,14 @@ namespace App\Imports;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 class MediaImport implements ToModel, WithValidation
 {
+    use Importable;
+
     /**
     * @param array $row
     *

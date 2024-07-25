@@ -27,6 +27,7 @@
                 <div class="tab d-none">
                     <div class="mb-3">
                         <form action="{{ route('files.import') }}" class="dropzone dz-clickable border rounded bg-light p-3">
+                            {{ csrf_field() }}
                             <div class="dropzone dz-default dz-message text-center"></div>
                         </form>
                     </div>

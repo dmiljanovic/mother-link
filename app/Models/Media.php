@@ -15,4 +15,18 @@ class Media extends Model
      * @var string
      */
     protected $table = 'media';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'media',
+        'publisher',
+        'publisher_name',
+        'publisher_email',
+        'info_for_admin',
+        'category'
+    ];
 }
