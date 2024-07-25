@@ -20,13 +20,13 @@ class FileController extends Controller
      */
     public function downloadFile(): BinaryFileResponse
     {
-        $file= public_path(). "/download/test.txt";
+        $file= public_path(). "/download/ImportSheet.csv";
 
         $headers = array(
-            'Content-Type: application/txt',
+            'Content-Type: application/scv',
         );
 
-        return Response::download($file, 'test.txt', $headers);
+        return Response::download($file, 'ImportSheet.csv', $headers);
     }
 
     public function importFile(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application

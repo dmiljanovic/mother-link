@@ -22,6 +22,6 @@ Route::controller(HomeController::class)->group(function () {
 
 //Download
 Route::controller(FileController::class)->group(function () {
-    Route::get('/download', 'downloadFile')->name('files.download');
-    Route::post('/import', 'importFile')->name('files.import');
+    Route::get('/file-download', 'downloadFile')->name('files.download');
+    Route::post('/file-import', 'importFile')->name('files.import');
 });
