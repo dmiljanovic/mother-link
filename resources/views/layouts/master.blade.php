@@ -41,11 +41,11 @@
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
     //Init pusher
-    var pusher = new Pusher('6e3b298239585804f384', {
+    const pusher = new Pusher('6e3b298239585804f384', {
         cluster: 'eu'
     });
 
-    var channel = pusher.subscribe('notification');
+    const channel = pusher.subscribe('notification');
     channel.bind('test.notification', function(data) {
         next();
         alert(JSON.stringify(data));
@@ -53,9 +53,9 @@
 
     //Init Dropzone
     Dropzone.autoDiscover = false;
-    var CSRF_TOKEN = $("input[name=_token]").val();
+    const CSRF_TOKEN = $("input[name=_token]").val();
     // Dropzone configuration
-    var myDropzone = new Dropzone(".dropzone", {
+    const myDropzone = new Dropzone(".dropzone", {
         url: "{{ route('files.import') }}",
         headers: {
             'x-csrf-token': CSRF_TOKEN,

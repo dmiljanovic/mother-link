@@ -37,15 +37,12 @@ class FileController extends Controller
         return Response::download($file, 'ImportSheet.csv', $headers);
     }
 
-    /**
-     * @throws FileNotFoundException
-     */
     public function importFile(ImportFileRequest $request): void
     {
         $file = $request->file('file');
 
         $filePath = $this->fileService->storeFile($file);
 
-        dispatch(new ImportFileJob(storage_path().'/app/public/'.$filePath));
+        dispatch(new ImportFileJob(storage_path('/app/public/').$filePath));
     }
 }

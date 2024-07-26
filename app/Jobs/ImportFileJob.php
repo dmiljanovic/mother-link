@@ -14,12 +14,12 @@ class ImportFileJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $file;
+    private string $file;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($file)
+    public function __construct(string $file)
     {
         $this->file = $file;
     }
@@ -29,19 +29,10 @@ class ImportFileJob implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
-            (new MediaImport())->import($this->file, null, \Maatwebsite\Excel\Excel::CSV);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
+        (new MediaImport())->import($this->file, null, \Maatwebsite\Excel\Excel::CSV);
 
-            foreach ($failures as $failure) {
-                $failure->row(); // row that went wrong
-                $failure->attribute(); // either heading key (if using heading row concern) or column index
-                $failure->errors(); // Actual error messages from Laravel validator
-                $failure->values(); // The values of the row that has failed.
-            }
-        }
+        $response = [];
 
-        event(new ImportNotification('This is testing data.'));
+        event(new ImportNotification(json_encode($response)));
     }
 }
