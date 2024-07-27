@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Download;
+namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportFileRequest;
 use App\Jobs\ImportFileJob;
 use App\Services\FileService;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 

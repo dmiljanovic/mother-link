@@ -36,6 +36,6 @@ class ImportNotification implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'test.notification';
+        return 'import.notification';
     }
 }

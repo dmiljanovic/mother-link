@@ -35,18 +35,23 @@
 
                 <div class="tab d-none">
                     <div class="mb-3">
-                        <label for="company_name" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" name="company_name" id="company_name" placeholder="Please enter company name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="company_address" class="form-label">Company Address</label>
-                        <textarea class="form-control" name="company_address" id="company_address" placeholder="Please enter company address"></textarea>
-                    </div>
+                        <h2 class="mt-4">Import Summery</h2>
+                        <h6 id="importSummeryText" class="mt-4 d-none"></h6>
+                        <table id="dynamicTable" class="table table-striped mt-3">
+                            <thead>
+                            <tr>
+                                <th>Row</th>
+                                <th>Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                 </div>
             </div>
             <div class="card-footer text-end">
                 <div class="d-flex">
-                    <button type="button" id="back_button" class="btn btn-link" onclick="back()">Back</button>
+                    <button type="button" id="back_button" class="btn btn-primary" onclick="back()">Back</button>
                     <button type="button" id="next_button" class="btn btn-primary ms-auto" onclick="next()">Next</button>
                 </div>
             </div>

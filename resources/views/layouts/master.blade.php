@@ -38,17 +38,30 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
     //Init pusher
     const pusher = new Pusher('6e3b298239585804f384', {
         cluster: 'eu'
     });
-
     const channel = pusher.subscribe('notification');
-    channel.bind('test.notification', function(data) {
+    // BInd channel to the event
+    channel.bind('import.notification', function(data) {
         next();
-        alert(JSON.stringify(data));
+
+        data = JSON.parse(data.message);
+
+        const newText =  'Successfully imported ' + data.total_imported + ' of ' + data.total_count + '. Review the table below for any errors encountered during the import process.';
+        $('#importSummeryText').removeClass('d-none').append(newText);
+
+        var tableBody = $('#dynamicTable tbody');
+        tableBody.empty(); // Clear existing table rows
+
+        $.each(data.import_statuses, function(index, item) {
+            var row = $('<tr>').append(
+                $('<td>').text(index).addClass(item === "Import failed" ? 'text-danger' : ''),
+                $('<td>').text(item).addClass(item === "Import failed" ? 'text-danger' : '')
+            );
+            tableBody.append(row);
+        });
     });
 
     //Init Dropzone
@@ -64,7 +77,7 @@
         maxFilesize: 2, // MB
         maxFiles: 1,
         // acceptedFiles: 'image/*',
-        dictDefaultMessage: '<div><i class="bi bi-cloud-arrow-up" style="font-size: 2rem;"></i></div>Drag & drop .csv or .xls file here or click to upload here.',
+        dictDefaultMessage: '<div><i class="bi bi-cloud-arrow-up" style="font-size: 2rem;"></i></div>Drag & drop .csv or .xls/xlsx file here or click to upload here.',
         clickable: true
     });
 
@@ -79,7 +92,7 @@
         $(tabs_pill[n]).addClass('active');
         $(tabs[n]).removeClass('d-none');
         $('#back_button').attr('disabled', n === 0);
-        n === (tabs.length - 1) ? $('#next_button').text('Submit').removeAttr('onclick') : $('#next_button').attr('type', 'button').text('Next').attr('onclick', 'next()');
+        $('#next_button').attr('disabled', n === (tabs.length - 1));
     }
 
     function next() {

@@ -29,10 +29,16 @@ class ImportFileJob implements ShouldQueue
      */
     public function handle(): void
     {
-        (new MediaImport())->import($this->file, null, \Maatwebsite\Excel\Excel::CSV);
+        (new MediaImport())->import($this->file);
 
-        $response = [];
+        $result['total_count'] = session()->get('total_count');
+        $result['total_imported'] = session()->get('total_imported');
+        $result['import_statuses'] = session()->get('import_statuses');
 
-        event(new ImportNotification(json_encode($response)));
+        event(new ImportNotification(json_encode($result)));
+
+        session()->forget('total_count');
+        session()->forget('total_imported');
+        session()->forget('import_statuses');
     }
 }

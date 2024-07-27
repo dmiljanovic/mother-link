@@ -3,18 +3,14 @@
 namespace App\Imports;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
 class MediaImport implements ToCollection, WithHeadingRow
 {
@@ -22,13 +18,17 @@ class MediaImport implements ToCollection, WithHeadingRow
 
     public function collection(Collection $collection)
     {
-        foreach ($collection as $row)
+        $totalCount = $collection->count();
+        $totalImported = 0;
+        $importStatuses = [];
+
+        foreach ($collection as $index => $row)
         {
             try {
                 $this->validateRow($row->toArray());
 
                 if ($this->mediaExists($row->toArray())) {
-                    Log::error('Media already imported.');
+                    $importStatuses[$index + 1] = 'Clone Imported';
 
                     continue;
                 }
@@ -43,14 +43,17 @@ class MediaImport implements ToCollection, WithHeadingRow
                 ]);
 
                 if ($res instanceof Media) {
-                    Log::error('Row successfully imported.');
+                    $totalImported++;
+                    $importStatuses[$index + 1] = 'Imported';
                 }
-            } catch (QueryException $e) {
-                Log::error('Database error during user creation: ' . $e->getMessage());
-            } catch (ValidationException $e) {
-                Log::error('Validation failed for row: ' . json_encode($row) . ' with errors: ' . $e->getMessage());
+            } catch (QueryException|ValidationException $e) {
+                $importStatuses[$index + 1] = 'Import failed';
             }
         }
+
+        session()->put('total_count', $totalCount);
+        session()->put('total_imported', $totalImported);
+        session()->put('import_statuses', $importStatuses);
     }
 
     public function rules(): array

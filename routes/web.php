@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Download\FileController;
+use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\Home\HomeController;
 use Illuminate\Support\Facades\Route;
 
