@@ -37,16 +37,18 @@
                     <div class="mb-3">
                         <h2 class="mt-4">Import Summery</h2>
                         <h6 id="importSummeryText" class="mt-4 d-none"></h6>
-                        <table id="dynamicTable" class="table table-striped mt-3">
-                            <thead>
-                            <tr>
-                                <th>Row</th>
-                                <th>Details</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive" style="max-height: 500px;">
+                            <table id="dynamicTable" class="table table-striped mt-3">
+                                <thead>
+                                <tr>
+                                    <th>Row</th>
+                                    <th>Details</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
             </div>
             <div class="card-footer text-end">

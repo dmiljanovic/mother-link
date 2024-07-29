@@ -36,6 +36,6 @@ Project uses  [Laravel Excel](https://docs.laravel-excel.com/3.1/getting-started
 * At your project root, rename '.env.example' file to '.env' and set DB connection.
 * From your console at your root folder execute 'php artisan key:generate' to generate and set APP_KEY.
 * From your console at your root folder execute 'sh checkall.sh' to start migrations and seeders.
-* To run the app execute 'php artisan serve' and click on the link.
+* To run the app, from your console at your root folder execute 'php artisan serve' and click on the link.
 
 Enjoy :) 
