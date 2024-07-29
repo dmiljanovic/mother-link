@@ -38,6 +38,7 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
+    Pusher.logToConsole = true;
     //Init pusher
     const pusher = new Pusher('6e3b298239585804f384', {
         cluster: 'eu'
@@ -104,11 +105,7 @@
     }
 
     function back() {
-        $(tabs[current]).addClass('d-none');
-        $(tabs_pill[current]).removeClass('active');
-
-        current--;
-        loadFormData(current);
+        window.location.replace('/');
     }
 </script>
 
